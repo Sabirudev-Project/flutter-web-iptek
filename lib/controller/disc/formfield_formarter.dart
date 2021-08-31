@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_function_declarations_over_variables
+
 import 'package:flutter/material.dart';
 
 class MoneyMaskedTextController extends TextEditingController {
@@ -8,9 +10,9 @@ class MoneyMaskedTextController extends TextEditingController {
       this.rightSymbol = '',
       this.leftSymbol = '',
       this.precision = 0}) {
-    // _validateConfig();
+    _validateConfig();
 
-      addListener(() {
+    addListener(() {
       updateValue(numberValue);
       afterChange(text, numberValue);
     });
@@ -37,46 +39,45 @@ class MoneyMaskedTextController extends TextEditingController {
       _lastValue = value;
     }
 
-    String masked = this._applyMask(valueToUse);
+    String masked = _applyMask(valueToUse);
 
-    if (rightSymbol.length > 0) {
+    if (rightSymbol.isNotEmpty) {
       masked += rightSymbol;
     }
 
-    if (leftSymbol.length > 0) {
+    if (leftSymbol.isNotEmpty) {
       masked = leftSymbol + masked;
     }
 
-    if (masked != this.text) {
-      this.text = masked;
+    if (masked != text) {
+      text = masked;
 
-      var cursorPosition = super.text.length - this.rightSymbol.length;
-      this.selection = new TextSelection.fromPosition(
-          new TextPosition(offset: cursorPosition));
+      var cursorPosition = super.text.length - rightSymbol.length;
+      selection =
+          TextSelection.fromPosition(TextPosition(offset: cursorPosition));
     }
   }
 
   double get numberValue {
-    List<String> parts =
-        _getOnlyNumbers(this.text).split('').toList(growable: true);
+    List<String> parts = _getOnlyNumbers(text).split('').toList(growable: true);
 
     parts.insert(parts.length - precision, '.');
 
     return double.parse(parts.join());
   }
 
-  _validateConfig() {
-    bool rightSymbolHasNumbers = _getOnlyNumbers(this.rightSymbol).length > 0;
+  void _validateConfig() {
+    bool rightSymbolHasNumbers = _getOnlyNumbers(rightSymbol).isNotEmpty;
 
     if (rightSymbolHasNumbers) {
-      throw new ArgumentError("rightSymbol must not have numbers.");
+      throw ArgumentError("rightSymbol must not have numbers.");
     }
   }
 
   String _getOnlyNumbers(String text) {
     String cleanedText = text;
 
-    var onlyNumbersRegex = new RegExp(r'[^\d]');
+    var onlyNumbersRegex = RegExp(r'[^\d]');
 
     cleanedText = cleanedText.replaceAll(onlyNumbersRegex, '');
 
