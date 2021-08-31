@@ -13,13 +13,13 @@ class PopUpLoading {
             children: <Widget>[
               LoadingBouncingGrid.circle(
                 inverted: true,
-                borderColor: Color(0xFF35386D),
+                borderColor: const Color(0xFF35386D),
                 borderSize: 3.0,
                 size: 60.0,
                 backgroundColor: Colors.white,
-                duration: Duration(milliseconds: 1000),
+                duration: const Duration(milliseconds: 1000),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               // new Text(
               //   "Please Wait",
               //   textAlign: TextAlign.center,
